@@ -5,6 +5,11 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      test-input:
+        description: A Test Input
+        required: true
+        type: string
 
 jobs:
   stub-job:
