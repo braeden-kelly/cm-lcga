@@ -1,0 +1,14 @@
+name: Stubbed Out Workflow
+
+permissions:
+  packages: read
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stub-job:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Hello World
+        run: echo "Hello World!"
