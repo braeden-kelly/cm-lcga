@@ -1,0 +1,30 @@
+name: "Input Output Example"
+
+on:
+  workflow_dispatch:
+    inputs:
+      text-input:
+        description: A Sample Text Input
+        type: string
+        required: true
+      boolean-input:
+        description: A Sample Boolean Input
+        type: boolean
+      choice-input:
+        description: A Sample Choice Input
+        type: choice
+        options:
+          - Choice1
+          - Choice2
+          - Choice3
+
+jobs:
+  test_job:
+    runs-on: ["ubuntu"]
+    steps:
+      - name: Echo Text Input
+        run: echo "${{ inputs.text-input }}"
+      - name: Echo Boolean Input
+        run: echo "${{ inputs.boolean-input }}"
+      - name: Echo Choice Input
+        run: echo "${{ inputs.choice-input }}"

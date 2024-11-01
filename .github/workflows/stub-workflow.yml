@@ -6,10 +6,20 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      test-input:
-        description: A Test Input
-        required: true
+      input-alpha:
+        description: "Some Input"
         type: string
+  workflow_call:
+    inputs:
+      input-alpha:
+        description: "Some Input"
+        type: string
+  push:
+    paths-ignore:
+      - '**.md'
+    branches-ignore:
+      - master
+
 
 jobs:
   stub-job:
