@@ -1,0 +1,29 @@
+name: "Workflow Dependency Example"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  initialize:
+    runs-on: ["ubuntu-latest"]
+    steps:
+      - name: "Initialize"
+        run: echo "Initialize"
+  build:
+    needs: [ "initialize" ]
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Build"
+        run: echo "Build"
+  test: 
+    needs: [ "initialize" ]
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Test"
+        run: echo "Test"
+  deploy:
+    needs: ["build", "test"]
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Deploy"
+        run: echo "Deploy"
