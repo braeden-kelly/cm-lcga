@@ -1,0 +1,23 @@
+name: Source Reusable Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment_name: 
+        description: The Passed in Environment
+        type: string
+    outputs:
+      job_output:
+        description: The Output of the Reusable Workflow
+        value: ${{ jobs.job_1.outputs.rw_env }}
+
+jobs:
+  job_1:
+    runs-on: ubuntu-latest
+    outputs: 
+      rw_env: ${{ steps.set_output.outputs.rw_env }}
+    steps:
+      - name: "Set Output"
+        id: set_output
+        run: |
+          echo "rw_env=rw-${{inputs.environment_name}}" >> $GITHUB_OUTPUT

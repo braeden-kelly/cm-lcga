@@ -1,0 +1,16 @@
+name: Sample Output Composite Action
+description: Sample Output Composite Action
+
+outputs: 
+  sample_output:
+    description: The Sample output
+    value: ${{ steps.set_output.outputs.output_value }}
+
+runs:
+  using: composite
+    - name: Set Output
+      id: set_output
+      shell: bash
+      run: |
+        echo "output_value=some_value" >> $GITHUB_OUTPUT
+        
