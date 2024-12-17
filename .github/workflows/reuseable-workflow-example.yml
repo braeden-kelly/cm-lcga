@@ -1,0 +1,25 @@
+name: Reusable Workflow Example
+
+on:
+  workflow_dispatch:
+    inputs:
+      env-input:
+        description: Pick An Environment
+        type: choice
+        options:
+          - Development
+          - Test
+          - Production
+
+jobs:
+  run_reusable_workflow:
+    uses: ./.github/workflows/source-reusable-workflow.yml
+    with:
+      environment_name: ${{ inputs.env-input }}
+  show_results:
+    runs-on: ubuntu-latest
+    needs: [ run_reusable_workflow ]
+    steps:
+      - name: Show the Workflow Output
+        run: |
+          echo ${{ needs.run_reusable_workflow.outputs.job_output }}

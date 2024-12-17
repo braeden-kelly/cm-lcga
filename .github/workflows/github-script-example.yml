@@ -1,0 +1,53 @@
+name: Github Script Example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-update-wiki:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Wiki
+        id: generate-wiki
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+            const script = require("./workflow_scripts/wiki-example.js")(github, core);
+
+            const results = await script.getMarkdown();
+            const fileName = `new-wiki-report.md`
+
+            core.setOutput('wiki-file', fileName);
+
+            fs.writeFileSync(fileName, results);
+      - name: Check out Wiki
+        uses: actions/checkout@v4
+        with:
+          repository: nhoying/LightsCameraGithubActions.wiki
+          path: 'wiki'
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy file to destination 
+        shell: bash
+        run: |
+          cp ${{ steps.generate-wiki.outputs.wiki-file }} ./wiki/${{ steps.generate-wiki.outputs.wiki-file }} -f
+      - name: Update Wiki
+        shell: bash
+        run: |
+            cd ./wiki
+            git config user.email "dependabot@crown.com"
+            git config user.name "Publish Release Version Report Workflow"
+            git add .
+            git commit -m "commit the wikie"
+            git push
+      - name: Display Wiki Link In Annotations
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            core.info("Annotating wiki link");
+            core.notice(`Results: https://github.com/nhoying/LightsCameraGithubActions/wiki/${{ steps.generate-wiki.outputs.wiki-file }}`);            

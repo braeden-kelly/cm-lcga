@@ -1,0 +1,10 @@
+name: "Python Action"
+description: "A Random Python Action"
+
+runs: "composite"
+steps:
+  name: "Run a python action"
+  shell: python
+  run: |
+    import os
+    print(os.environ['PATH'])

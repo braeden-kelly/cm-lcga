@@ -1,0 +1,23 @@
+name: "Output Example"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-output:
+    runs-on: "ubuntu-latest"
+    outputs:
+      my-test-output: ${{ steps.set-output-step.outputs.output-result }}
+    steps:
+      - name: Set Output
+        id: set-output-step
+        run: echo "output-result=my_value" >> $GITHUB_OUTPUT
+      
+  use-output:
+    runs-on: "ubuntu"
+    needs: ["set-output"]
+    steps:
+      - name: Use Output
+        env:
+          ENV_OUTPUT_VALUE: ${{ needs.set-output.outputs.my-test-output }}
+        run: echo "$ENV_OUTPUT_VALUE"›
