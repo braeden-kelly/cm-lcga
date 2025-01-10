@@ -1,0 +1,15 @@
+name: Matrix Example
+
+on: workflow_dispatch
+
+jobs:
+  example_matrix:
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        environment: [prod, test, dev]
+        server: [alpha, beta]
+    steps:
+      - run: |
+          echo ${{ matrix.environment }}
+          echo ${{ matrix.server }} 
